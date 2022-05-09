@@ -187,6 +187,25 @@ const mongodbCommands: Record<string, Fig.Subcommand> = {
       },
     ],
   },
+  mocs: {
+    name: "mocs",
+    description: "Display the status of the Mongo cluster",
+    args: {
+      name: "OPTIONS",
+      isOptional: true,
+    },
+    options: [
+      {
+        name: ["-om", "--om-appdb"],
+        description:
+          "If -om specified, will check status for only appdb cluster, else check status for the entire cluster.",
+      },
+      {
+        name: "--help",
+        description: "Sho this message and exit",
+      },
+    ],
+  },
 };
 
 const clusterCommands: Record<string, Fig.Subcommand> = {
@@ -392,6 +411,103 @@ const randomCommads: Record<string, Fig.Subcommand> = {
       },
     ],
   },
+  ce: {
+    name: ["ce", "cdb-execute"],
+    description: " Run a cdb execute command against a member.",
+    args: [
+      {
+        name: "OPTIONS",
+        isOptional: false,
+      },
+      {
+        name: "COMMAND",
+        isOptional: false,
+      },
+    ],
+    options: [
+      {
+        name: ["-p", "--pod"],
+        isRequired: true,
+        args: [
+          {
+            name: "PODNAME",
+            isOptional: false,
+          },
+        ],
+      },
+      {
+        name: ["-n", "--namespace"],
+        isRequired: false,
+        args: [
+          {
+            name: "NAMESPACE",
+            isOptional: false,
+          },
+        ],
+      },
+      {
+        name: ["-d", "--data"],
+        isRequired: false,
+        args: [
+          {
+            name: "TEXT",
+            isOptional: false,
+          },
+        ],
+      },
+      {
+        name: "--help",
+        description: "Sho this message and exit",
+      },
+    ],
+  },
+  nodes: {
+    name: "nodes",
+    description: "Show the current cluster's nodes.",
+    options: [
+      {
+        name: ["--show-workers"],
+        isRequired: true,
+      },
+      {
+        name: ["-a", "--all"],
+        isRequired: false,
+      },
+      {
+        name: ["--help", "-h"],
+        description: "Show this help and exit",
+      },
+    ],
+  },
+  provision: {
+    name: "provision",
+    description: "Provision a formation on a cluster.",
+    args: [
+      {
+        name: "OPTIONS",
+        isOptional: true,
+      },
+      {
+        name: "DB_TYPE",
+        description: "A database type, e.g. `postgresql` or `redis`.",
+      },
+      {
+        name: "FORMATION_ID",
+        description:
+          " ID for the formation to be provisioned. If random is given, a random name will be generated",
+      },
+      {
+        name: "ARGUMENTS",
+        description: "A list of arguments as key=value pairs.",
+      },
+    ],
+    options: [
+      {
+        name: ["--help", "-h"],
+        description: "Show this help and exit",
+      },
+    ],
+  },
 };
 
 const completionSpec: Fig.Spec = {
@@ -409,6 +525,7 @@ const completionSpec: Fig.Spec = {
 
     mongodbCommands.moeui,
     mongodbCommands.moco,
+    mongodbCommands.mocs,
 
     clusterCommands.cl,
 
@@ -421,6 +538,9 @@ const completionSpec: Fig.Spec = {
     randomCommads.dl,
     randomCommads.bp,
     randomCommads.console,
+    randomCommads.ce,
+    randomCommads.nodes,
+    randomCommads.provision,
   ],
   options: [
     {
